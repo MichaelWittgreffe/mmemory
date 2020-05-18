@@ -1,0 +1,24 @@
+{
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "C_Cpp.clang_format_style": "file",
+    "clang-tidy.compilerArgs": [
+        "-std=c11",
+        "-p ."
+    ],
+    "clang-tidy.checks": [
+        "-*",
+        "bugprone-*",
+        "cert-*",
+        "clang-analyzer-",
+        "misc-*",
+        "llvm-*",
+        "modernize-*",
+        "performance-*",
+        "portability-*",
+        "readability-*",
+        "-llvm-header-guard",
+        "-readability-implicit-bool-conversion"
+    ],
+    "clang-tidy.lintOnSave": true,
+}

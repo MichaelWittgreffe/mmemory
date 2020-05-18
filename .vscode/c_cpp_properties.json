@@ -1,0 +1,23 @@
+{
+    "configurations": [
+        {
+            "name": "linux",
+            "intelliSenseMode": "gcc-x64",
+            "includePath": [
+                "./src",
+                "./include"
+            ],
+            "cStandard": "c11"
+        },
+        {
+            "name": "windows",
+            "intelliSenseMode": "gcc-x64",
+            "includePath": [
+                "./src",
+                "./include"
+            ],
+            "cStandard": "c11"
+        }
+    ],
+    "version": 4
+}

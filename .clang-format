@@ -1,0 +1,8 @@
+BasedOnStyle: LLVM
+IndentWidth: 4
+IndentCaseLabels: true
+ContinuationIndentWidth: 2
+DerivePointerAlignment: true
+PointerAlignment: Left
+ColumnLimit: 160
+AccessModifierOffset: 0
