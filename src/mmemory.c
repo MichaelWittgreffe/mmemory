@@ -1,11 +1,9 @@
 #include "mmemory.h"
 
 #include <pthread.h>
+#include <stdbool.h>
 #include <string.h>
 #include <unistd.h>
-
-#define M_TRUE 1
-#define M_FALSE 0
 
 MemHeader* globalHead = NULL;
 MemHeader* globalTail = NULL;
@@ -17,10 +15,10 @@ void* malloc(size_t size) {
     }
 
     pthread_mutex_lock(&globalMemLock);
-    MemHeader* header = getFreeBlock(size);
+    MemHeader* header = getFreeBlock(size); // reuse free'd memory if we can
 
     if (header) {
-        header->data.isFree = M_FALSE;
+        header->data.isFree = false;
         pthread_mutex_unlock(&globalMemLock);
         return (void*)(header + 1);
     }
@@ -34,7 +32,7 @@ void* malloc(size_t size) {
 
     header = block;
     header->data.size = size;
-    header->data.isFree = M_FALSE;
+    header->data.isFree = false;
     header->data.next = NULL;
 
     if (!globalHead) {
@@ -57,6 +55,7 @@ MemHeader* getFreeBlock(size_t size) {
         if (current->data.isFree && current->data.size >= size) {
             return current;
         }
+        current = current->data.next;
     }
 
     return NULL;
@@ -71,7 +70,7 @@ void free(void* block) {
     MemHeader* header = (MemHeader*)block - 1;
     void* programBreak = sbrk(0);
 
-    // if we are free'ing the block at the top of the heap, we can release to the OS
+    // if we're free'ing the block at the top of the heap, we can release to the OS
     if (((char*)block + header->data.size) == programBreak) {
         if (globalHead == globalTail) {
             globalHead = globalTail = NULL;
@@ -91,8 +90,8 @@ void free(void* block) {
         return;
     }
 
-    // otherwise we just mark the memory as avalible for re-use
-    header->data.isFree = M_TRUE;
+    // otherwise just mark the memory as avalible for re-use
+    header->data.isFree = true;
     pthread_mutex_unlock(&globalMemLock);
 }
 
