@@ -6,14 +6,12 @@
 int main(void) {
     char* text = malloc(sizeof(char) * 11);
     strcpy(text, "Hello World");
-    printf(text);
-
-    printf("\n");
+    printf("%s\n", text);
 
     free(text);
     text = realloc(text, 10);
     strcpy(text, "Hello World!");
-    printf(text);
+    printf("%s\n", text);
 
-    printf("\nPROGRAM COMPLETE\n");
+    printf("PROGRAM COMPLETE\n");
 }
